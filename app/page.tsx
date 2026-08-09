@@ -1,7 +1,9 @@
+import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { AppsMenu, getPlatformNav, PageShell, SessionGuard, UserMenu } from "iipe-common-ui";
 import { prisma } from "@/lib/prisma";
 import { verifyAppSession } from "@/lib/session";
+import { buildAuthorizeUrl } from "@/lib/sso";
 import { LeaveClient, type LeaveItem } from "./components/LeaveClient";
 
 export const dynamic = "force-dynamic";
@@ -27,6 +29,14 @@ export default async function DashboardPage({
   const store = await cookies();
   const session = store.get("app2_session")?.value ?? "";
   const me = await verifyAppSession(session);
+  // The proxy does not run for the exact basePath root, so guard it here.
+  if (!me) {
+    const state = crypto.randomUUID().replaceAll("-", "");
+    const authorizeUrl = buildAuthorizeUrl(state);
+    store.set("app2_oauth_state", state, { httpOnly: true, sameSite: "lax", path: "/", maxAge: 300 });
+    store.set("app2_return_to", "/", { httpOnly: true, sameSite: "lax", path: "/", maxAge: 600 });
+    redirect(authorizeUrl.toString());
+  }
 
   if (!me) {
     return <p className="iipe-container">Session not found.</p>;
