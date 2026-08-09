@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ------------------------------------------------------------------
+// IIPE App2 (Leave Management) — app2_db
+// A second independent application with a DIFFERENT role model and
+// completely separate database from App1.
+// ------------------------------------------------------------------
+
+enum Role {
+  ADMIN
+  ACCOUNTS_OFFICER
+  OPERATOR
+  VIEWER
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model AppUser {
+  id        String   @id @default(uuid())
+  ssoUserId String   @unique // subject from the central SSO
+  username  String   @unique
+  name      String
+  email     String?
+  role      Role     @default(VIEWER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  leaves    LeaveRequest[]
+}
+
+model LeaveRequest {
+  id        String      @id @default(uuid())
+  applicant String
+  reason    String
+  days      Int
+  status    LeaveStatus @default(PENDING)
+  applicantId String
+  applicantUser AppUser @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+}
