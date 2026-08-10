@@ -1,4 +1,5 @@
 "use client";
+import { apiPath } from "iipe-common-ui";
 
 import { useState } from "react";
 
@@ -36,7 +37,7 @@ export function LeaveClient({
   const [error, setError] = useState<string | null>(null);
 
   async function api(path: string, init?: RequestInit) {
-    const res = await fetch(path, {
+    const res = await fetch(apiPath(path), {
       headers: { "content-type": "application/json" },
       ...init,
     });
