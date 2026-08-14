@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { AppsMenu, getPlatformNav, PageShell, SessionGuard, UserMenu } from "iipe-common-ui";
+import { AppsMenu, getPlatformNav, lookupAppName, PageShell, SessionGuard, UserMenu } from "iipe-common-ui";
 import { prisma } from "@/lib/prisma";
 import { verifyAppSession } from "@/lib/session";
 import { buildAuthorizeUrl } from "@/lib/sso";
@@ -25,6 +25,12 @@ export default async function DashboardPage({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
+  const appName = await lookupAppName({
+    mainBaseUrl: MAIN_BASE_URL,
+    appKey: process.env.MAIN_API_KEY,
+    basePath: process.env.BASE_PATH ?? "/app2",
+    fallback: "Leave Management",
+  });
   const params = await searchParams;
   const store = await cookies();
   const session = store.get("app2_session")?.value ?? "";
@@ -59,6 +65,7 @@ export default async function DashboardPage({
 
   return (
     <PageShell
+      appName={appName}
       header={{
         navItems: getPlatformNav({ mainBaseUrl: MAIN_BASE_URL, ssoBaseUrl: SSO_BASE_URL, active: "home" }),
         right: (
