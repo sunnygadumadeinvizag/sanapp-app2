@@ -8,7 +8,7 @@ datasource db {
 }
 
 // ------------------------------------------------------------------
-// IIPE App2 (Leave Management) — app2_db
+// IIPE App2 (Leave Management) — sanapp_app2_db
 // A second independent application with a DIFFERENT role model and
 // completely separate database from App1.
 // ------------------------------------------------------------------

@@ -97,10 +97,10 @@ export default async function DashboardPage({
         { label: "Main (access)", href: MAIN_BASE_URL },
       ]}
     >
-      <SessionGuard channel="iipe-app2-session" />
+      <SessionGuard channel="sanapp-app2-session" />
       <h1 className="iipe-page-title">Leave Management</h1>
       <p className="iipe-page-sub">
-        A second independent application with its own database (<code>app2_db</code>) and a{" "}
+        A second independent application with its own database (<code>sanapp_app2_db</code>) and a{" "}
         <strong>different role model</strong> from App1: Admin · Accounts Officer · Operator ·
         Viewer.
       </p>

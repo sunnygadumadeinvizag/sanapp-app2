@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 
 const SECRET = new TextEncoder().encode(process.env.APP_SESSION_SECRET!);
-const ISSUER = "iipe-app2";
+const ISSUER = "sanapp-app2";
 
 export const SESSION_COOKIE = "app2_session";
 

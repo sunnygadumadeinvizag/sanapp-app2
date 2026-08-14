@@ -2,7 +2,7 @@ import "dotenv/config";
 import { prisma } from "../src/lib/prisma";
 
 async function main() {
-  console.log("Seeding app2_db …");
+  console.log("Seeding sanapp_app2_db …");
 
   const users = [
     { ssoUserId: "seed:sanyasi", username: "sanyasi", name: "Sanyasi Naidu", email: "sanyasi.naidu@iipe.ac.in", role: "ACCOUNTS_OFFICER" as const },
@@ -34,7 +34,7 @@ async function main() {
     }
   }
 
-  console.log("app2_db seeded: 5 local users with roles, demo leave requests");
+  console.log("sanapp_app2_db seeded: 5 local users with roles, demo leave requests");
 }
 
 main()
