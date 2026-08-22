@@ -70,7 +70,7 @@ export default async function DashboardPage({
         navItems: getPlatformNav({ mainBaseUrl: MAIN_BASE_URL, ssoBaseUrl: SSO_BASE_URL, active: "home" }),
         right: (
           <>
-            <AppsMenu launcherHref={`${MAIN_BASE_URL}/my-apps`} />
+            <AppsMenu launcherHref={MAIN_BASE_URL} />
             <UserMenu
               name={me.name}
               email={me.email}
@@ -78,7 +78,6 @@ export default async function DashboardPage({
               signOutHref="/api/logout"
             >
               <a href={`${SSO_BASE_URL}/account`}>My Account</a>
-              <a href={`${MAIN_BASE_URL}/my-apps`}>My Apps</a>
               {me.ssoRole === "SUPER_ADMIN" && (
                 <>
                   <div className="iipe-dropdown-section">Admin Console</div>
@@ -92,9 +91,7 @@ export default async function DashboardPage({
       sidebarItems={[
         { label: "Home", href: "/", active: true },
         { label: "Leave Requests", href: "/#leaves" },
-        { label: "My Account", href: `${SSO_BASE_URL}/account` },
-        { label: "SSO (identity)", href: SSO_BASE_URL },
-        { label: "Main (access)", href: MAIN_BASE_URL },
+
       ]}
     >
       <SessionGuard channel="sanapp-app2-session" />
