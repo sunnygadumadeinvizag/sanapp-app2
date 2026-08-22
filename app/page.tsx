@@ -91,7 +91,7 @@ export default async function DashboardPage({
       sidebarItems={[
         { label: "Home", href: "/", active: true },
         { label: "Leave Requests", href: "/#leaves" },
-
+        { label: "App Notifications", href: "/notifications" },
       ]}
     >
       <SessionGuard channel="sanapp-app2-session" />
