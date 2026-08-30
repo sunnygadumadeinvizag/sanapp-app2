@@ -45,6 +45,11 @@ export default async function NotFoundPage() {
   const store = await cookies();
   const session = store.get("app2_session")?.value ?? "";
   const me = await verifyAppSession(session);
+  const themeRes = await fetch(`${SSO_BASE_URL}/api/theme`, {
+    cache: "no-store",
+    signal: AbortSignal.timeout(2000),
+  }).then((r) => r.json()).catch(() => ({}));
+  const showAccount = !themeRes.accountDisplayDisabled || me?.ssoRole === "SUPER_ADMIN";
 
   return (
     <PageShell
@@ -60,7 +65,7 @@ export default async function NotFoundPage() {
               role={ROLE_LABELS[me.role] ?? me.role}
               signOutHref="/api/logout"
             >
-              <a href={`${SSO_BASE_URL}/account`}>My Account</a>
+              {showAccount && <a href={`${SSO_BASE_URL}/account`}>My Account</a>}
               {me.ssoRole === "SUPER_ADMIN" && (
                 <>
                   <div className="iipe-dropdown-section">Admin Console</div>
